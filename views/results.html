@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title><%= title %></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/bootstrap/css/cover.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="/javascripts/jquery-1.11.1.min.js"></script>
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Cover</h3>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <!--<li><a href="#">Features</a></li>
+                <li><a href="#">Contact</a></li>-->
+              </ul>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading">EXCEL FILE PARSER</h1>
+            <% if(sheetsinfo) { %>
+              <ul>
+              <% sheetsinfo.forEach(function(x){ %>
+                <% x.forEach(function(y){ %>
+                  <li><%- y %></li>
+                <% }) %>
+              <% }) %>
+              </ul>
+            <% } %>
+          </div>
+          <% if (json) { %>
+              <script type="text/javascript">
+                var jsonObj = '<%- json %>';
+                var library = {};
+                library.json = {
+                  replacer: function(match, pIndent, pKey, pVal, pEnd) {
+                      var key = '<span class=json-key>';
+                      var val = '<span class=json-value>';
+                      var str = '<span class=json-string>';
+                      var r = pIndent || '';
+                      if (pKey)
+                        r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+                      if (pVal)
+                        r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+                      return r + (pEnd || '');
+                  },
+                  prettyPrint: function(obj) {
+                      var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+                      return JSON.stringify(obj, null, 3)
+                        .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+                        .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                        .replace(jsonLine, library.json.replacer);
+                  }
+                };
+                $(document).ready(function(){
+                  jsonObj = $.parseJSON(jsonObj);
+                  $('#json_result_box').html(library.json.prettyPrint(jsonObj));
+                });
+              </script>
+              <pre><code id="json_result_box"></code></pre>
+          <% } %>
+            
+          
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
